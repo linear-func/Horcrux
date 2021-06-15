@@ -54,14 +54,9 @@ def hp(ID):
 		hp = 777
 	return hp
 
-#event_0
-dem = 0
-def event_0(i):
-	dem += 1
-
 #event_1
 hp = hp(ID)
-def event_1(i):
+def event_1():
 	if ID == 3:	
 		hp += (M // max_iprime)
 		M = M % max_iprime
@@ -70,7 +65,7 @@ def event_1(i):
 		M = 0
 
 #event_1xx
-def even_1xx(i):
+def even_1xx():
 	h1 = i % (100+R)
 	h2 = lst[i] % (100+R)
 	if ID != 1 :
@@ -88,41 +83,55 @@ def even_1xx(i):
 			if M > 999:
 				M = 999
 #event_2xx
-def even_2xx(i):
-	if i < 3:
-		a = M - (lst[i]-200)
-		if a <= 4 :
-			hp = 0
-			M = 0
+from math import sqrt
+def even_2xx():
+	if a > 4 :
 		#list số chính phương
 		lst2 = []
-		for i in range(100):
+		for i in range(int(math.sqrt(a))+1):
 			lst2.append(i**2)
 			b = max(lst2)
 			M -= b
 	else:
-		a = M - (lst[i]-200)
-		if a <= 4:
-			dem = dem*2
-			...
+		if i < 3 :
+			hp = 0
+			M = 0
+		else:
+			i = 0
+			for i in range(len(lst)):
+				if 200 <= lst[i] <= 299:
+					continue
+		
 
 #event_3xx
-def event_3xx(i):
+M = currentM
+hp = currenthp
+def event_3xx():
 	h1 = i % (100+R)
 	h2 = lst[i] % (100+R)
 	if ID != 1 :
 		if h1 >= h2 :
-			....
+			i = 0
+			for i in range(len(lst)):
+				if 300 <= lst[i] <= 399:
+					continue
 		else:
 			dem = 0
 	else:
 		if isprime(h2) == True and h2 > M:
 			dem = 0
 		else:
-			...
+			for i in range(len(lst)):
+				if 200 <= lst[i] <= 299 or 500 <= lst[i] <= 599:
+					continue
+				if 100 <= lst[i] <= 199 or lst[i] == 666 or lst[i] == 777:
+					event_1xx
+					if M < currentM or hp < currenthp :
+						M = current
+						hp = currenthp
 
 #event_5xx
-def event_5xx(i):
+def event_5xx():
 	if ID != 2 and ID != 4 and uscln(xx,hp)!= 1:
 		lst3 = []
 		xx = lst[i] - 500
@@ -130,13 +139,12 @@ def event_5xx(i):
 			if lst1[i] % xx == 0:
 				lst3.append(lst1[i])
 		Q = max(lst3)
-		if lst3 = []:
+		if len(lst3) == 0:
 			Q = 1
-
 		h1 = i % (100+R)
 		h2 = lst[i] % (100+R)
 		if ID != 1 :
-			if h1 < h2
+			if h1 < h2:
 				hp -= lst[i]
 				if Q > 	M:
 					M = 0
@@ -151,7 +159,7 @@ def event_5xx(i):
 					M -= Q
 		print("hp = ",hp)
 #event_666
-def event_666(i):
+def event_666():
 	h1 = i % (100+R)
 	h2 = lst[i] % (100+R)
 	if ID != 1 :
@@ -171,3 +179,21 @@ def event_666(i):
 	print("hp = ",hp)
 
 #check stop
+dem = 0
+for i in range(n):
+	if lst[i] == 0:
+		dem += 1
+	elif lst[i] == 1:
+		event_1()
+	elif 100 <= lst[i] <= 199:
+		event_1xx()
+	elif 200 <= lst[i] <= 299:
+		event_2xx()
+	elif 300 <= lst[i] <= 399:
+		event_3xx()
+	elif 500 <= lst[i] <= 599:
+		event_5xx()
+	elif lst[i] == 666:
+		event_666()
+
+print(result(hp,M))
